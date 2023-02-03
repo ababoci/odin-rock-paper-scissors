@@ -1,2 +1,7 @@
 # odin-rock-paper-scissors
-Odin: Rock Paper Scissors Project
+https://www.theodinproject.com/lessons/foundations-rock-paper-scissors
+
+The Odin Project  
+Project: Rock Paper Scissors
+
+Build rock paper scissors using JavaScript.
