@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <script src="rps.js" defer></script> 
 </head>
 <body>
     <button data-selection="rock">Rock</button>
@@ -17,60 +18,9 @@
         Computer Score:
         <div class = "computerScore">0</div>
         <div class = "roundResult"></div>
+        <div class = "gameResult"></div>
     </div>
 
-    <script>
-        const playerScore = document.querySelector("div.playerScore");
-        const computerScore = document.querySelector("div.computerScore");
-        const roundResult = document.querySelector("div.roundResult")
-
-        const choices = ["rock", "paper", "scissors"];
-
-        function getComputerChoice() {
-            let randomChoice = Math.floor(Math.random() * 3);
-            
-            let computerChoice = choices[randomChoice];
-            return computerChoice;
-        }
-
-        function resetGame() {
-            playerScore.textContent = computerScore.textContent = 0;
-        }
-
-        function playerMove(e) {
-            playRound(this.getAttribute('data-selection'), getComputerChoice());
-        }
-
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach((button) => {
-            button.addEventListener('click', playerMove)
-        });
-
-        function playRound(playerSelection, computerSelection) {
-            if (playerSelection === computerSelection) {
-                roundResult.textContent = `You selected ${playerSelection} and computer selected ${computerSelection}. It's a draw!`;
-            }
-            else if ((playerSelection === "rock" && computerSelection === "scissors") ||
-            playerSelection === "paper" && computerSelection === "rock" ||
-            playerSelection === "scissors" && computerSelection === "paper") {
-                roundResult.textContent = `You selected ${playerSelection} and computer selected ${computerSelection}. You win!`;
-                playerScore.textContent = (++playerScore.textContent).toString();
-            }
-            else {
-                roundResult.textContent = `You selected ${playerSelection} and computer selected ${computerSelection}. Computer wins!`;
-                computerScore.textContent = (++computerScore.textContent).toString();
-            }
-            
-            if (computerScore.textContent == 5) {
-                roundResult.textContent = "The computer wins the game! A new game will be started.";
-                resetGame();
-            }
-            else if(playerScore.textContent == 5) {
-                roundResult.textContent = "You win the game! A new game will be started."
-                resetGame();
-            }
-        }
-    </script>
     
 </body>
 </html>
