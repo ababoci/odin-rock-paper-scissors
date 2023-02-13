@@ -7,9 +7,24 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <button data-selection="rock">Rock</button>
+    <button data-selection="paper">Paper</button>
+    <button data-selection="scissors">Scissors</button>
+
+    <div class = "result">
+        Player Score:
+        <div class = "playerScore">0</div>
+        Computer Score:
+        <div class = "computerScore">0</div>
+        <div class = "roundResult"></div>
+    </div>
 
     <script>
-        let choices = ["rock", "paper", "scissors"];
+        const playerScore = document.querySelector("div.playerScore");
+        const computerScore = document.querySelector("div.computerScore");
+        const roundResult = document.querySelector("div.roundResult")
+
+        const choices = ["rock", "paper", "scissors"];
 
         function getComputerChoice() {
             let randomChoice = Math.floor(Math.random() * 3);
@@ -18,56 +33,43 @@
             return computerChoice;
         }
 
+        function resetGame() {
+            playerScore.textContent = computerScore.textContent = 0;
+        }
+
+        function playerMove(e) {
+            playRound(this.getAttribute('data-selection'), getComputerChoice());
+        }
+
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => {
+            button.addEventListener('click', playerMove)
+        });
+
         function playRound(playerSelection, computerSelection) {
             if (playerSelection === computerSelection) {
-                return {winner: "none", message: "It's a draw!"} 
+                roundResult.textContent = `You selected ${playerSelection} and computer selected ${computerSelection}. It's a draw!`;
             }
             else if ((playerSelection === "rock" && computerSelection === "scissors") ||
             playerSelection === "paper" && computerSelection === "rock" ||
             playerSelection === "scissors" && computerSelection === "paper") {
-                return {winner: "player", message: `You Win! ${playerSelection} beats ${computerSelection}`};
+                roundResult.textContent = `You selected ${playerSelection} and computer selected ${computerSelection}. You win!`;
+                playerScore.textContent = (++playerScore.textContent).toString();
             }
             else {
-                return {winner: "computer", message: `You Lose! ${computerSelection} beats ${playerSelection}`};
-            }
-        }
-
-        function game() {
-            playerScore = 0;
-            computerScore = 0;
-
-            for (let i = 0; i < 5; i++) {
-                const playerSelection = prompt("Select rock, paper, or scissors by typing it in below.")
-                const computerSelection = getComputerChoice();
-                roundResult = playRound(playerSelection.toLowerCase(), computerSelection)
-
-                console.log(roundResult.message);
-
-                if (roundResult.winner === "none") {
-                    continue;
-                }
-                else if (roundResult.winner === "player") {
-                    playerScore++;
-                }
-                else {
-                    computerScore++;
-                }
+                roundResult.textContent = `You selected ${playerSelection} and computer selected ${computerSelection}. Computer wins!`;
+                computerScore.textContent = (++computerScore.textContent).toString();
             }
             
-            if (playerScore > computerScore) {
-                alert("You win!")
+            if (computerScore.textContent == 5) {
+                roundResult.textContent = "The computer wins the game! A new game will be started.";
+                resetGame();
             }
-            else if (playerScore < computerScore) {
-                alert("You lose.")
-            }
-            else {
-                alert("It's a draw!")
+            else if(playerScore.textContent == 5) {
+                roundResult.textContent = "You win the game! A new game will be started."
+                resetGame();
             }
         }
-
-        game();
-        
-
     </script>
     
 </body>
